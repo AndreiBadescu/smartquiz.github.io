@@ -1,3 +1,5 @@
+console.log("Loading...")
+
 var question = document.getElementById("question");
 var obj; // = questions[index]
 var index; // the question's number
@@ -9,6 +11,8 @@ var gameWindow = document.getElementsByTagName("body")[0];
 var greyFilter = document.getElementById("overlay-filter");
 var startMenu = document.getElementById("home_menu");
 var startBtn = document.getElementById("start_btn");
+var playagainBtn = document.getElementById("playagain_btn");
+var homeBtn = document.getElementById("home_btn");
 var option = [
     document.getElementById("0"),
     document.getElementById("1"),
@@ -46,16 +50,16 @@ function addEvents() {
 function checkAns(event) {
     removeEvents();
 
-    if (aPerm[event.currentTarget.id] == obj.key) {
+    if (aPerm[event.target.id] == obj.key) {
         // corect guess
-        event.currentTarget.className = "correct";
+        event.target.className = "correct";
         correctSound.play();
 
         function next(element) {
             element.className = "hover";
             playerGuess(++index);
         }
-        setTimeout(next, 500, event.currentTarget);
+        setTimeout(next, 500, event.target);
 
     } 
     else {
@@ -68,7 +72,7 @@ function checkAns(event) {
         }
 
         option[ans].className = "correct";
-        event.currentTarget.className = "wrong";
+        event.target.className = "wrong";
         game.className = "vibration";
         wrongSound.play();
 
@@ -81,9 +85,10 @@ function checkAns(event) {
                 gameWindow.className = "blur-filter"; // blur the screen
             }, 501); 
 
+            //gameWindow.className = "blur-filter"; // blur the screen
             showMenu(wrongChoice, correctChoice);
         }
-        setTimeout(next, 800, event.currentTarget, option[ans]);
+        setTimeout(next, 800, event.target, option[ans]);
     }
 }
 
@@ -133,13 +138,25 @@ function showMenu(wrongChoice, correctChoice) {
     retryMenu.className = "centered";
 
     setTimeout(function() {
-        retryMenu.addEventListener("click", function toBeRemoved () {
+        var toBeRemoved = function(event) {
             wrongChoice.className = "hover";
             correctChoice.className = "hover";
             retryMenu.className = "hidden";
-            retryMenu.removeEventListener("click", toBeRemoved);
+
+            playagainBtn.removeEventListener("click", toBeRemoved);
+            homeBtn.removeEventListener("click", toBeRemoved);
+
             resetGame();
-        });
+            if (event.target.id == "playagain_btn") {
+                startGame();
+            }
+            else {
+                //correctSound.play();
+            }
+        }
+
+        playagainBtn.addEventListener("click", toBeRemoved);
+        homeBtn.addEventListener("click", toBeRemoved);
     }, 501);
 }
 
