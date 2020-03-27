@@ -2,17 +2,21 @@
 <html lang="en">
 
 <head>
+    <!-- METAS -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="full-screen" content="yes" />
     <meta name="screen-orientation" content="portrait" />
     <title> Smart Quiz </title>
+    <!-- LINKS -->
+    <link rel="shortcut icon" href="#">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/stylesheet.css">
+    <!-- SCRIPTS -->
     <script src="https://connect.facebook.net/en_US/fbinstant.6.3.js"></script>
     <script type="text/javascript" src="js/Q&A.js" defer></script>
-    <script type="text/javascript" src="js/main.js" defer></script>
+    <script type="text/javascript" src="js/game.js" defer></script>
 </head>
 
 <body class="">
@@ -39,16 +43,31 @@
     }(document, 'script', 'facebook-jssdk'));
     </script>-->
 
-    <div id="game" class="">
-        <div id="home_menu" class="centered">
-            <button id="start_btn">START</button>
-            <button id="settings_btn">SETTINGS</button>
-            <button id="credits_btn">CREDITS</button>
+    <!-- HOME MENU -->
+    <div id="home_menu" class="centered">
+        <button id="start_btn">PLAY</button>
+        <button id="settings_btn">SETTINGS</button>
+        <button id="credits_btn">CREDITS</button>
+    </div>
+    <!-- END OF HOME MENU-->
+
+    <div id="settings_menu" class="hidden">
+        <button class="go_back">GO BACK</button>
+    </div>
+
+    <div id="credits_menu" class="hidden">
+        <div id="credits">
+            <p>Creator: Andrei Bădescu</p>
         </div>
-        <div id="question_block" class="hidden">
+        <button class="go_back">GO BACK</button>
+    </div>
+
+    <!-- GAME -->
+    <div id="game" class="hidden">
+        <div id="question_block" class="">
             <p id="question"></p>
         </div>
-        <div id="answers_block" class="hidden">
+        <div id="answers_block" class="">
             <div class="ans_group">
                 <button id="0"></button>
                 <button id="1"></button>
@@ -59,11 +78,19 @@
             </div>
         </div>
     </div>
-    <div id="overlay-filter" class=""></div>
-    <div id="retry_menu" class="hidden">
+    <!-- END OF GAME -->
+
+    <!-- RETRY MENU -->
+    <div id="retry_menu" class="centered hidden">
         <button id="playagain_btn">PLAY AGAIN</button>
         <button id="home_btn">HOME</button>
     </div>
+    <!-- END OF RETRY MENU -->
+
+    <!-- FILTERS -->
+    <div id="overlay-filter" class=""></div>
+    <div id="blur-filter" class=""></div>
+    <!-- END OF FILTERS -->
 </body>
 
 </html>
