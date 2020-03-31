@@ -103,7 +103,7 @@ function checkAns(event) {
 
 // adding click event listener for every answer option available in the game
 function addListeners(option) {
-    for (let i = 0; i < option.length; ++i) {
+    for (let i = 0; i < numberOfOptions; ++i) {
         option[i].addEventListener("click", checkAns);
     }
 }
@@ -151,12 +151,13 @@ function genPerm(arr, len) {
 
 // this function will preload an image for future use
 function preloadNextImg(index) {
-    preloadedImg.src = "img/" + index + ".jpg";
     // checking the file extension
     preloadedImg.onerror = function() {
         // changing it to the good one
         preloadedImg.src = "img/" + index + ".png";
-    }
+    };
+    // trying the JPEG extension
+    preloadedImg.src = "img/" + index + ".jpg";
 }
 
 // processing the player's answer
@@ -178,35 +179,47 @@ function playerGuess(index) {
         aPerm = []; // emptying the array !inside the genPerm function won't work!
         genPerm(aPerm, numberOfOptions);
 
+        // adding text (answers) to choice buttons
         for (let i = 0; i < numberOfOptions; ++i) {
             option[i].innerHTML = choice[i] + '. ' + obj.answers[aPerm[i]];
+            // eliminating any width and padding to calculate 
+            // the dynamic padding and center the text inside buttons
             option[i].style.width = "";
             option[i].style.padding = "0";
         }
 
         // making the buttons have the best possible padding
         var dynamicPadding = function() {
-            let minPadding = 10000,
+            let minPadding = 100000,
+                // 40% width of the viewport
                 doc_40vw   = 4 * document.documentElement.clientWidth / 10,
+                // 90% width of the viewport
                 doc_90vw   = 9 * document.documentElement.clientWidth / 10;
+
             for (let i = 0; i < numberOfOptions; ++i) {
+                // checking for small screens
                 if (document.documentElement.clientWidth > 768)
                     minPadding = Math.min(minPadding, doc_40vw - option[i].clientWidth);
                 else
                     minPadding = Math.min(minPadding, doc_90vw - option[i].clientWidth);
             }
+
+            // padding must be divided in order to center the text near center 
             minPadding /= 2;
+
+            // applying the styling for all the answer buttons
             for (let i = 0; i < numberOfOptions; ++i) {
                 // in this case the media screen styling will apply
                 if (document.documentElement.clientWidth > 768)
                     option[i].style.width = "40vw";
                 else
                     option[i].style.width = "90vw"; 
+                // top, bottom and right padding
                 option[i].style.padding = "1.4rem"       
                 // this is the dynamic padding
                 option[i].style.paddingLeft = minPadding + "px";
             }
-        }
+        };
         // calling the function
         dynamicPadding();
     } 
@@ -237,7 +250,7 @@ function showMenu(wrongChoice, correctChoice) {
         else {
             clickMenuSound.play();
         }
-    }
+    };
 
     playagainBtn.addEventListener("click", toBeRemoved);
     homeBtn.addEventListener("click", toBeRemoved);
